@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 import datetime
 
 
@@ -50,3 +50,18 @@ class EstateProperty(models.Model):
     )
     tag_ids = fields.Many2many("estate.property.tag", string="Property Tags")
     offer_ids = fields.One2many("estate.property.offer", "property_id", string="Offers")
+
+    total_area = fields.Integer("Total Area", compute="_compute_total_area")
+    best_price = fields.Float("Best Price", compute="_compute_best_price")
+
+    @api.depends("living_area", "garden_area")
+    def _compute_total_area(self):
+        for rec in self:
+            rec.total_area = rec.living_area + rec.garden_area
+
+    @api.depends("offer_ids.price")
+    def _compute_best_price(self):
+        for rec in self:
+            rec.best_price = (
+                min(rec.offer_ids.mapped("price")) if rec.offer_ids else 0
+            )
