@@ -6,6 +6,7 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+
     <record id="estate_property_tree" model="ir.ui.view">
         <field name="name">estate.property.tree</field>
         <field name="model">estate.property</field>
@@ -32,6 +33,8 @@
                         <field name="name" />
                     </group>
                     <group>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="property_type_id"/>
                         <field name="postcode" />
                         <field name="expected_price" />
                     </group>
@@ -54,6 +57,22 @@
                             <group>
                                 <field name="active"/>
                                 <field name="status"/>
+                            </group>
+                        </page>
+                        <page string="Offers">
+                            <group>
+                                <field name="offer_ids">
+                                    <tree string="Tests">
+                                        <field name="price"/>
+                                        <field name="status"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page string="Other info">
+                            <group>
+                                <field name="buyer_id"/>
+                                <field name="seller_id"/>
                             </group>
                         </page>
                     </notebook>
@@ -84,8 +103,10 @@
     </record>
 
     <menuitem id="estate_menu_root" name="Real Elabore">
-        <menuitem id="estate_first_level_menu" name="Advertisements">
+
+        <menuitem id="model_name_advertisements_menu" name="Advertisements">
             <menuitem id="estate_model_menu_action" action="open_estate_property_action"/>
         </menuitem>
     </menuitem>
+
 </odoo>
